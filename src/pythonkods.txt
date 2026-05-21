@@ -1,0 +1,46 @@
+Ажиллуулах дараалал
+
+**Алхам 1 — CSV файлуудаа хуулах:**
+```
+data/raw/ дотор:  UNSW-NB15_1.csv, _2.csv, _3.csv, _4.csv
+```
+
+**Алхам 2 — Дараалж ажиллуулах:**
+```bash
+# Тус тусад нь:
+python src/preprocess.py       # CSV цэвэрлэж хадгалах
+python src/spectrogram_gen.py  # Спектрограмм үүсгэх
+python src/train.py            # CNN сургах
+python src/evaluate.py         # Үнэлгээ
+
+# Эсвэл нэг дор:
+python run_pipeline.py
+```
+
+---
+
+## Файл бүрийн үүрэг
+
+| Файл | Юу хийдэг |
+|---|---|
+| `utils.py` | Config, path, logger, split, class_weights |
+| `preprocess.py` | CSV уншиж, цэвэрлэж, LabelEncode, MinMaxScale |
+| `spectrogram_gen.py` | 64 урсгалын цонхоор **(32×64)** спектрограмм үүсгэнэ |
+| `train.py` | 4-блок CNN сурган `.keras` хадгална |
+| `evaluate.py` | Confusion matrix, ROC, F1, метрик хүснэгт |
+| `run_pipeline.py` | Бүгдийг нэг дор ажиллуулна |
+
+---
+
+## Спектрограммын логик (дипломд бичихэд)
+
+```
+Урсгалууд (Stime-аар эрэмблэж)
+    → Скользящее окно: 64 поток, шаг 32
+    → Матриц (32 признак × 64 поток)
+    → log1p масштабирование → [0,1] нормализация
+    → Спектрограмм: строки = признаки (частота), столбцы = время
+    → CNN входной зураг
+```
+
+`results/` хавтсанд **confusion matrix**, **ROC кривая**, **metrics_bar.png**, **spectrogram_samples.png** автоматаар гарна — дипломын 3-р бүлэгт шууд ашиглаж болно. `preprocess.py`-г эхлүүлсний дараа алдаа гарвал хэлж дэ!
