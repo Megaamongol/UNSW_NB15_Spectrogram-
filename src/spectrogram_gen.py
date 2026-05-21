@@ -142,7 +142,7 @@ def generate_spectrograms(
         window_bin   = y_binary[start:end]
         window_multi = y_multi[start:end]
         # labels_bin[i]   = np.bincount(window_bin).argmax()
-    # Option B — any-attack labeling
+        # Option B — any-attack labeling
         if np.any(window_bin == 1):
             labels_bin[i] = 1
         else:
@@ -165,6 +165,7 @@ def generate_spectrograms(
                     f"({cnt/len(labels_bin)*100:.1f}%)")
 
     return spectrograms, labels_bin, labels_multi
+
 # ─────────────────────────────────────────────
 #  ВИЗУАЛИЗАЦИЯ ПРИМЕРОВ
 # ─────────────────────────────────────────────
