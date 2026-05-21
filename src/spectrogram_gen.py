@@ -142,18 +142,19 @@ def generate_spectrograms(
         window_bin   = y_binary[start:end]
         window_multi = y_multi[start:end]
         # labels_bin[i]   = np.bincount(window_bin).argmax()
-      # Option B — any-attack labeling
-    if np.any(window_bin == 1):
-        labels_bin[i] = 1
-    else:
-        labels_bin[i] = 0
-    
-if np.any(window_bin == 1):
+    # Option B — any-attack labeling
+        if np.any(window_bin == 1):
+            labels_bin[i] = 1
+        else:
+            labels_bin[i] = 0
+
+        if np.any(window_bin == 1):
             attack_labels = window_multi[window_bin == 1]
             labels_multi[i] = np.bincount(attack_labels).argmax()
         else:
             labels_multi[i] = 7  # Normal
-        logger.info(f"Итого спектрограмм: {len(spectrograms):,}  "
+
+    logger.info(f"Итого спектрограмм: {len(spectrograms):,}  "
                 f"(форма: {spectrograms.shape})")
 
     # Статистика по меткам
@@ -164,7 +165,6 @@ if np.any(window_bin == 1):
                     f"({cnt/len(labels_bin)*100:.1f}%)")
 
     return spectrograms, labels_bin, labels_multi
-
 # ─────────────────────────────────────────────
 #  ВИЗУАЛИЗАЦИЯ ПРИМЕРОВ
 # ─────────────────────────────────────────────
