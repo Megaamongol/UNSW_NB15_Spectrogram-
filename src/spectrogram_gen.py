@@ -147,16 +147,12 @@ def generate_spectrograms(
         labels_bin[i] = 1
     else:
         labels_bin[i] = 0
-        # labels_multi[i] = np.bincount(window_multi).argmax()
-# Одоо байгаа:
-labels_multi[i] = np.bincount(window_multi).argmax()
-
-# Өөрчлөх:
+    
     if np.any(window_bin == 1):
-        attack_labels = window_multi[window_bin == 1]
-        labels_multi[i] = np.bincount(attack_labels).argmax()
-    else:
-        labels_multi[i] = 7  # Normal
+                attack_labels = window_multi[window_bin == 1]
+                labels_multi[i] = np.bincount(attack_labels).argmax()
+            else:
+                labels_multi[i] = 7  # Normal
         logger.info(f"Итого спектрограмм: {len(spectrograms):,}  "
                 f"(форма: {spectrograms.shape})")
 
